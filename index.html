@@ -8,29 +8,47 @@
     <h1>Litera</h1>
     <p><i>This is where knowledge and pleasure converge</i></p>
 
-    <div id="authorDiv">
-        <select name="" id="selectAuthors">
-        </select>
-        <button id="show-emails">Show Emails</button>
-    
-        <div id="authorBooks">
-
-        </div>
+    <div class="author-div">
+        <select name="" id="select-authors">
+        </select> 
+    </div>
+    <button id="show-emails">Show Emails</button>
+    <div class="author-emails">       
     </div>
 
-    <button class="showBooks">Show all books</button>
-    <div class="bookDiv"></div>
-    <button class="hideBooks">Hide all books</button>
-    <button class="deleteBook">Delete book</button>
+    <button class="show-books-btn">Show all books</button>
+    <div id="search-div">
+        <label for="search-bar">Looking for a book?</label>
+    <input type="text" id="search-input" placeholder="enter name of the book">
+    <button type="submit" id="search-btn">Search</button>
+    </div>
+    <div class="search-show">
+        
+    </div>
+    <div class="bookDiv">
 
-    <button class="showAuthors">Show Authors</button>
+    </div>
+    <button class="hide-books-btn">Hide all books</button>
     
-    
-    <form action="" id="newBook">
+    <div class="new-book-div">    
+    <!-- how to create a book with parameters and associate with parents (Book_Controller create?) -->
+    <form action="" id="new-book-form"> 
         <label for="">New Book</label>
-        <input type="text" name="book">
+        <input type="text" name="title"><br>
+        <label for="">Publisher</label>
+        <input type="text" name="publisher"><br>
+        <label for="">Rating</label>
+        <input type="text" name="rating"><br>
+        <!-- <select name="" class="selectAuthors">
+
+        </select> -->
+        <!-- <label for="">Author</label>
+        <input type="text" name="author"><br>
+        <label for="">Genre</label>
+        <input type="text" name="genre"> -->
         <button type="submit">Add new book</button>
     </form>
+</div>
 </body>
 
 <script type="application/javascript" src="src/appContainer.js" charset="UTF-8" defer></script>

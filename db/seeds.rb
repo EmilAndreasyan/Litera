@@ -5,10 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+# binding.pry
+Comment.destroy_all
+Book.destroy_all
 Author.destroy_all
 Genre.destroy_all
-Book.destroy_all
-Comment.destroy_all
+
+
 
 @author1 = Author.create(name: Faker::Name.name, gender: Faker::Gender.binary_type, age: rand(18..80), email: Faker::Internet.email)
 @author2 = Author.create(name: Faker::Name.name, gender: Faker::Gender.binary_type, age: rand(18..80), email: Faker::Internet.email)
@@ -46,7 +49,7 @@ Comment.destroy_all
 @comment12 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book3)
 @comment13 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book4)
 @comment14 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book5)
-@comment15 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book6)+
+@comment15 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book6)
 @comment16 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book7)
 @comment17 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book8)
 @comment18 = Comment.create(date: Faker::Date.between(from: 2.years.ago, to: Date.today), likes: rand(0..5000), dislikes: rand(0..5000), book: @book9)

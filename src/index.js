@@ -1,7 +1,10 @@
 const app = new AppContainer
+app.bindEventListeners() // thus having access to all the events stored in bindEventListeners() scope
 app.getBooks()
 app.getAuthors()
-app.bindEventListeners() // thus having access to all the events stored in bindEventListeners() scope
+app.showBooks()
+app.deleteBook()
+
 
 
 
