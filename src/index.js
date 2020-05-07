@@ -1,17 +1,6 @@
 const app = new AppContainer
-app.bindEventListeners() // thus having access to all the events stored in bindEventListeners() scope
-app.getBooks()
-app.getAuthors()
-app.showBooks()
-app.deleteBook()
-
-
-
-
-
-
-
-// const BACKEND_URL = 'http://localhost:3000';
-// fetch(`${BACKEND_URL}/test`)
-//   .then(response => response.json())
-//   .then(parsedResponse => console.log(parsedResponse));
+const addapter = new AppAdapter // js file containing fetch requests (getBooks, getAuthors, etc)
+app.bindEventListeners() // thus having access to all the events stored in new AppContainer.bindEventListeners() scope
+addapter.bindEventListeners()
+addapter.getBooks()
+addapter.getAuthors()

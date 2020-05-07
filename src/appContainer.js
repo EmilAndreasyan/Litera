@@ -3,41 +3,26 @@ class AppContainer {
 	static books = []; // instances of Book pushed into books array
 	static genres = [];
 	static comments = [];
-	url = 'http://localhost:3000/';
+	static domElements = { // more organized way of targeting DOM elements
+		showBooksBtn: document.querySelector('.show-books-btn'),
+		hideBooksBtn: document.querySelector('.hide-books-btn'),
+		showEmailsBtn: document.getElementById('show-emails'),
+		searchBtn: document.getElementById('search-btn')
+	}
 
-	bindEventListeners() {
+	bindEventListeners() { // adding listeners to AppContainer.domElements
 		// bind(this) binds the instance of class, are used for preventing default behavior (preventDefault()), if the book array is static (static book = []), we can avoid using bind
-		const showBooksBtn = document.querySelector('.show-books-btn');
-		showBooksBtn.addEventListener('click', this.showBooks);
 
-		const hideBooksBtn = document.querySelector('.hide-books-btn');
-		hideBooksBtn.addEventListener('click', this.hideBooks);
+		AppContainer.domElements.showBooksBtn.addEventListener('click', AppContainer.showBooks); // class name has access to static method, which is visible across the files
 
-		const showEmailsBtn = document.getElementById('show-emails');
-		showEmailsBtn.addEventListener('click', this.toggleEmails);
+		AppContainer.domElements.hideBooksBtn.addEventListener('click', this.hideBooks);
 
-		// const searchInput = document.getElementById('search-input');
-		// searchInput.addEventListener('focus', this.searchBook);
-		const searchBtn = document.getElementById('search-btn');
-		searchBtn.addEventListener('click', this.searchBook);
+		AppContainer.domElements.showEmailsBtn.addEventListener('click', this.toggleEmails);
 
-		const newBookForm = document.getElementById('new-book-form');
-		newBookForm.addEventListener('submit', () => this.createBook(event));
+		AppContainer.domElements.searchBtn.addEventListener('click', this.searchBook);
 	}
 
-	getAuthors() {
-		fetch(this.url + '/authors')
-			.then((response) => response.json())
-			.then((data) => {
-				data.forEach((author) => {
-					new Authors(author.id, author.name, author.gender, author.age, author.email);
-				});
-				this.showAuthors();
-			})
-			.catch((err) => console.log(err));
-	}
-
-	showAuthors() {
+	static showAuthors() {
 		// creating select with options
 		const authorDiv = document.querySelector('.author-div'); // targeting
 		const selectAuthors = document.getElementById('select-authors'); // targeting
@@ -54,18 +39,19 @@ class AppContainer {
 		// how to select only books for particular author in option select????
 		const authorEmails = document.querySelector('.author-emails');
 		const ul = document.createElement('ul');
-		const btn = document.createElement('button');
-		btn.className = 'hide-button';
-		btn.style.backgroundColor = 'teal';
-		btn.style.borderRadius = '7px';
-		btn.style.color = 'white';
-		btn.innerText = 'Hide emails';
 		AppContainer.authors.forEach((author) => {
 			const li = document.createElement('li');
-			li.innerText = `${author.email}`;
-			ul.appendChild(li);
+			if (author.email !== null) {
+				li.innerText = `${author.email}`;
+				ul.appendChild(li);
+			}
 		});
 		authorEmails.appendChild(ul);
+		const btn = document.createElement('button');
+		btn.className = 'hide-button';
+		btn.style.backgroundColor = '#6CC3D5';
+		btn.style.color = 'white';
+		btn.innerText = 'Hide Emails';
 		authorEmails.appendChild(btn);
 		btn.addEventListener('click', (event) => {
 			const ul = document.querySelector('.author-emails ul');
@@ -74,40 +60,25 @@ class AppContainer {
 		});
 	}
 
-	getBooks() {
-		fetch(this.url + '/books') // GETting data from url/books
-			.then((response) => response.json())
-			.then((data) => {
-				// populate with books
-				data.forEach((book) => {
-					// iterating over data/books hash and creating instances of Books class (new Book, see continuation in book.js)
-					new Books(book.id, book.title, book.publisher, book.rating, book.author, book.genre);
-					if (!AppContainer.authors.map((author) => author.name).includes(book.author.name)) {
-						// if authors array does not include the author name, create a new book.author as well
-						new Authors(book.author.name, book.author.gender, book.author.age, book.author.email);
-					}
-				});
-				this.showBooks(); // runs this function immediately after fetching (IIF) so that it the result could be visible when the page loads
-			})
-			.catch((err) => console.log(err));
-	}
-
-	showBooks() {
-		const bookDiv = document.querySelector('.bookDiv');
+	static showBooks() {
+		const bookDiv = document.querySelector('.book-div');
 		const ul = document.createElement('ul');
 		AppContainer.books.forEach((book) => {
-			const li = document.createElement('li');
-			li.innerText = `${book.title}. ${book.rating} (rating) `;
+			const p = document.createElement('p');
+			p.textContent = `${book.title}. Rating: ${book.rating} `;
+			ul.appendChild(p);
 			const btn = document.createElement('button');
+			btn.style.backgroundColor = '#FF7851';
+			btn.style.color = 'lightBlue';
 			btn.className = 'delete-button';
 			btn.innerText = ` Delete`;
-			li.appendChild(btn);
-			ul.appendChild(li);
-			// btn.addEventListener('click', (ev) => {
-			// 	ev.target.parentNode.remove();
-			// });
-			// btn.addEventListener('click', () => this.deleteBook)
-			btn.addEventListener('click', this.deleteBook.bind(this))
+			p.appendChild(btn);
+			btn.addEventListener('click', (ev) => {
+				ev.target.parentNode.remove();
+			});
+			//btn.addEventListener('click', (event) => this.deleteBook)
+			//btn.addEventListener('click', this.deleteBook)
+			//btn.addEventListener('click', AppAdapter.deleteBook); // half works, hits the method, but the book element is undefined
 			// btn.addEventListener('click', (ev, book) => {
 			// 	// how to invoke deleteBook fetch request? (url, book)
 			// 	//debugger
@@ -128,11 +99,11 @@ class AppContainer {
 	}
 
 	hideBooks() {
-		const ul = document.querySelector('.bookDiv ul');
+		const ul = document.querySelector('.book-div ul');
 		ul ? ul.remove() : null;
 	}
 
-	searchBook(ev) {
+	searchBook() {
 		// how to find and return a value in a hash?
 		let searchShowDiv, input, filter, ul, li;
 		searchShowDiv = document.getElementsByClassName('search-show');
@@ -150,45 +121,5 @@ class AppContainer {
 			}
 		}
 		searchShowDiv.appendChild(ul);
-	}
-
-	createBook(event) {
-		//debugger
-		event.preventDefault();
-		// const newBookForm = document.getElementById('newBook');
-		fetch(`${this.url}/books`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json'
-			},
-			body: JSON.stringify({
-				title: event.target.title.value,
-				publisher: event.target.publisher.value,
-				rating: event.target.rating.value
-				// author: event.target.author.value,
-				// genre: event.target.genre.value
-			})
-		})
-			.then((resp) => resp.json())
-			.then((data) => {
-				const { id, title, publisher, rating, author, genre } = data;
-				new Activity(id, title, publisher, rating, author, genre);
-			})
-			.catch((err) => console.log(err));
-	}
-
-	// static
-	deleteBook() {
-		AppContainer.books.forEach((book) => {
-			fetch(this.url + `books/${book.id}`, {
-				method: 'DELETE'
-			})
-				.then((response) => response.json())
-				.then((data) => {
-					Books.delete(data.id);
-				})
-				.catch((err) => console.log(err));
-		});
 	}
 }
