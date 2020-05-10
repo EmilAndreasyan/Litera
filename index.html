@@ -6,36 +6,50 @@
     <title>Litera</title>
 </head>
 <body>
-
     <div class="jumbotron">
         <h1 class="display-4">Litera</h1>
         <p class="lead"><i>This is where knowledge and pleasure converge</i></p>
-        <hr class="my-4">
-        <!-- <p class="lead">
-          <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-        </p> -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand display-3" href="#">Litera</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          
+            <div class="collapse navbar-collapse" id="navbarColor02">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item active show-books-btn">
+                  <a class="nav-link" href="#">Show books<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item hide-books-btn">
+                  <a class="nav-link" href="#">Hide books</a>
+                </li>
+                <li class="nav-item show-emails">
+                  <a class="nav-link" href="#">Show Emails</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+              </ul>
+              <form class="search-book-form form-inline my-2 my-lg-0">
+                <input class="search-input form-control mr-sm-2" type="text" placeholder="Looking for a book?">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+              </form>
+            </div>
+          </nav>
 
+        <hr class="my-4">
         <div class="author-div">
             <select name="" id="select-authors">
+                <!-- populate options -->
             </select> 
         </div>
-        <button id="show-emails" class="btn-info">Show Emails</button>
         <div class="author-emails">       
         </div>
-    
-        <button class="show-books-btn btn-outline-info">Show all books</button>
-        <div id="search-div">
-            <label for="search-bar">Looking for a book?</label>
-        <input type="text" id="search-input" placeholder="enter name of the book">
-        <button type="submit" id="search-btn">Search</button>
-        </div>
+
         <div class="search-show">
-            
         </div>
-        <div class="book-div">
-            
+        <div class="book-div">   
         </div>
-        <button class="hide-books-btn btn-outline-danger">Hide all books</button>
         
         <div class="new-book-div">    
         <!-- how to create a book with parameters and associate with parents (Book_Controller create?) -->

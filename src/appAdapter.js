@@ -2,10 +2,11 @@ class AppAdapter {
 	url = 'http://localhost:3000'; // this -> instance, this.constructor -> class, static -> class method visible across the js files
 	static domElements = {
 		newBookForm: document.getElementById('new-book-form')
-	}
+	};
 
 	bindEventListeners() {
-		AppAdapter.domElements.newBookForm.addEventListener('submit', () => this.createBook(event)); // when submit, arrow function
+		// AppAdapter == this.constructor (name of class)
+		this.constructor.domElements.newBookForm.addEventListener('submit', () => this.createBook(event)); // when submit, arrow function then preventDefault in function body
 	}
 
 	getAuthors() {
@@ -13,7 +14,9 @@ class AppAdapter {
 			.then((response) => response.json())
 			.then((data) => {
 				data.forEach((author) => {
-					new Authors(author.id, author.name, author.gender, author.age, author.email);
+					if (author.name !== null && author.email !== null) {
+						new Authors(author.id, author.name, author.gender, author.age, author.email);
+					}
 				});
 				AppContainer.showAuthors();
 			})
@@ -21,7 +24,7 @@ class AppAdapter {
 	}
 
 	getBooks() {
-		fetch(this.url + '/books') // GETting data from url/books
+		fetch(this.url + '/books')
 			.then((response) => response.json())
 			.then((data) => {
 				// populate with books
@@ -57,6 +60,7 @@ class AppAdapter {
 		})
 			.then((resp) => resp.json())
 			.then((data) => {
+				//debugger
 				const { id, title, publisher, rating, author, genre } = data;
 				new Books(id, title, publisher, rating, author, genre);
 			})
@@ -64,15 +68,28 @@ class AppAdapter {
 	}
 
 	static deleteBook(event) {
+		debugger;
 		event.preventDefault();
+		const bookName = event.currentTarget.parentElement.textContent.split('.')[0];
 		AppContainer.books.forEach((book) => {
-			fetch(`${this.url}/books/${book.id}`, { method: 'DELETE' })
-				.then((response) => response.json())
-				.then((data) => {
-					Books.delete(data.id);
-				})
-				.catch((err) => console.log(err));
+			//debugger
+			if (book.title === bookName) {
+				fetch(`${this.url}/books/${book.id}`, { method: 'delete' })
+					// .then(response => response.json())
+					// .then(data => {console.log(data)})
+					.catch((err) => console.log(err));
+			}
 		});
+		// AppContainer.books.forEach((book) => {
+		// 	//debugger
+		// 	fetch(`${this.url}/books/${book.id}`, { method: 'DELETE' })
+		// 		.then(response => response.json())
+		// 		.then((data) => {
+		// 			Books.delete(data.id);
+		// 		})
+		// 		.catch((err) => console.log(err));
+		// 	});
+		//this.getBooks()
 		// event.preventDefault()
 		// book = event.target.parentElement
 		// fetch(`${this.url}/books/${book.id}`, {	method: 'DELETE' })

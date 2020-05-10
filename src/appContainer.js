@@ -3,23 +3,32 @@ class AppContainer {
 	static books = []; // instances of Book pushed into books array
 	static genres = [];
 	static comments = [];
-	static domElements = { // more organized way of targeting DOM elements
+	static domElements = {
+		// more organized way of targeting DOM elements
 		showBooksBtn: document.querySelector('.show-books-btn'),
 		hideBooksBtn: document.querySelector('.hide-books-btn'),
-		showEmailsBtn: document.getElementById('show-emails'),
-		searchBtn: document.getElementById('search-btn')
-	}
+		showEmailsBtn: document.querySelector('.show-emails'),
+		searchInput: document.querySelector('.search-input'),
+		searchBookForm: document.querySelector('.search-book-form')
+	};
 
-	bindEventListeners() { // adding listeners to AppContainer.domElements
+	bindEventListeners() {
+		// adding listeners to AppContainer.domElements
 		// bind(this) binds the instance of class, are used for preventing default behavior (preventDefault()), if the book array is static (static book = []), we can avoid using bind
 
-		AppContainer.domElements.showBooksBtn.addEventListener('click', AppContainer.showBooks); // class name has access to static method, which is visible across the files
+		// AppAdapter == this.constructor (name of class)
 
-		AppContainer.domElements.hideBooksBtn.addEventListener('click', this.hideBooks);
-
-		AppContainer.domElements.showEmailsBtn.addEventListener('click', this.toggleEmails);
-
-		AppContainer.domElements.searchBtn.addEventListener('click', this.searchBook);
+		this.constructor.domElements.showBooksBtn.addEventListener('click', this.constructor.showBooks); // class name has access to static method, which is visible across the files
+		this.constructor.domElements.hideBooksBtn.addEventListener('click', this.hideBooks);
+		this.constructor.domElements.showEmailsBtn.addEventListener('click', this.toggleEmails);
+		this.constructor.domElements.searchInput.addEventListener('focus', (ev) => {
+			ev.target.style.backgroundColor = 'lightgreen';
+		});
+		this.constructor.domElements.searchInput.addEventListener('blur', (ev) => {
+			ev.target.style.backgroundColor = '';
+			ev.target.value = '';
+		});
+		this.constructor.domElements.searchBookForm.addEventListener('submit', () => this.searchBook(event));
 	}
 
 	static showAuthors() {
@@ -41,7 +50,7 @@ class AppContainer {
 		const ul = document.createElement('ul');
 		AppContainer.authors.forEach((author) => {
 			const li = document.createElement('li');
-			if (author.email !== null) {
+			if (author.email !== undefined) {
 				li.innerText = `${author.email}`;
 				ul.appendChild(li);
 			}
@@ -103,23 +112,47 @@ class AppContainer {
 		ul ? ul.remove() : null;
 	}
 
-	searchBook() {
-		// how to find and return a value in a hash?
-		let searchShowDiv, input, filter, ul, li;
-		searchShowDiv = document.getElementsByClassName('search-show');
-		input = document.getElementById('search-input');
-		filter = input.value.toUpperCase();
-		ul = document.createElement('ul');
-		li = document.createElement('li');
-		for (const element of AppContainer.books) {
-			// how to itearate over hash key
-			if (AppContainer.books[title].includes(filter)) {
-				li.innerText = `${element.title}`;
-				ul.appendChild(li);
+	searchBook(event) {
+		event.preventDefault();
+		let searchShowDiv, input, filter, h5, deleteBtn;
+		searchShowDiv = document.querySelector('.search-show');
+		input = document.querySelector('.search-input').value;
+		filter = (input.charAt(0).toUpperCase() + input.slice(1).split(' ').join(' '));
+		h5 = document.createElement('h5');
+		deleteBtn = document.createElement('button');
+		for (const key in AppContainer.books) {
+			if (Object.entries(AppContainer.books).includes(filter)) {
+				// doesn't work, need to compare similar value types
+				console.log('hello');
+				h5.textContent = `we have found your book! ${key}`;
 			} else {
-				console.log(`${filter} is not found`);
+				h5.textContent = `We haven't found any results for ${filter} `;
 			}
 		}
-		searchShowDiv.appendChild(ul);
+		// return function(input, key) {
+		// 	for (const key in object) {
+		// 		if (object.hasOwnProperty(key)) {
+		// 			const element = object[key];
+		// 		}
+		// 	}
+		// };
+		// 	return function (input) {
+		// 		console.log('hello')
+		// 	for (const [key, value] of Object.entries(AppContainer.books)) {
+		// 		if (input === value) {
+		// 			console.log(`${key}: ${value}`)
+		// 		} else {
+		// 			console.log('falilure')
+		// 		}
+
+		// 	}
+		// }
+		searchShowDiv.appendChild(h5);
+		deleteBtn.innerText = 'delete';
+		h5.appendChild(deleteBtn);
+		deleteBtn.addEventListener('click', (ev) => {
+			ev.target.parentNode.remove();
+			deleteBtn.removeEventListener('click', this);
+		});
 	}
 }

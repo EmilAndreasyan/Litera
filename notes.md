@@ -15,7 +15,4 @@ AJAX requests
 - delete/books/:id
 
 - in showAuthorBooks, how to select only books for author in option select???? should it be nested route author/:id/books in routes and controller show action?
-- how to get child elements (author/:id/books)
-- how to invoke listener outside if the scope (this?)
-- which folder serves as a convention for CSS file (like src for JS)?
-- search for a book
+- search for a book (how to find Object's one of the keys' value?)
