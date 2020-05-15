@@ -28,6 +28,7 @@ class AppContainer {
 			ev.target.style.backgroundColor = '';
 			ev.target.value = '';
 		});
+		//this.constructor.domElements.searchInput.addEventListener('input', this.searchBook);
 		this.constructor.domElements.searchBookForm.addEventListener('submit', () => this.searchBook(event));
 	}
 
@@ -113,22 +114,35 @@ class AppContainer {
 	}
 
 	searchBook(event) {
+		// const num = event.charCode; // code of the event
+		// const letter = String.fromCharCode(num);
+		// how to capitalize each letter in input and compare to Object value???
 		event.preventDefault();
 		let searchShowDiv, input, filter, h5, deleteBtn;
 		searchShowDiv = document.querySelector('.search-show');
 		input = document.querySelector('.search-input').value;
-		filter = (input.charAt(0).toUpperCase() + input.slice(1).split(' ').join(' '));
 		h5 = document.createElement('h5');
 		deleteBtn = document.createElement('button');
-		for (const key in AppContainer.books) {
-			if (Object.entries(AppContainer.books).includes(filter)) {
-				// doesn't work, need to compare similar value types
-				console.log('hello');
-				h5.textContent = `we have found your book! ${key}`;
+		// filter gets string with "Every Word Uppercased"
+		filter = input.split(' ').map((word) => (word.charAt(0).toUpperCase() + word.slice(1)).split(',')).join(' ');
+		AppContainer.books.forEach((book) => {
+			//debugger
+			if (book.title.includes(filter)) {
+				h5.textContent = `We have a book matching your search! ${book.title} `;
 			} else {
-				h5.textContent = `We haven't found any results for ${filter} `;
+				console.log(`We haven't found any results for ${filter} `) // doesn't work, how to invoke this outside of loop?
 			}
-		}
+		});
+		// for (const key in AppContainer.books) {
+		// debugger
+		// 	if (Object.entries(AppContainer.books).includes(filter)) {
+		// 		// doesn't work, need to compare similar value types
+		// 		console.log('hello');
+		// 		h5.textContent = `we have found your book! ${key}`;
+		// 	} else {
+		// 		h5.textContent = `We haven't found any results for ${filter} `;
+		// 	}
+		// }
 		// return function(input, key) {
 		// 	for (const key in object) {
 		// 		if (object.hasOwnProperty(key)) {

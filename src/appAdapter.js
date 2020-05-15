@@ -68,35 +68,28 @@ class AppAdapter {
 	}
 
 	static deleteBook(event) {
+		// how to connect event.currentTarget.parentElement with book.id?
 		debugger;
 		event.preventDefault();
-		const bookName = event.currentTarget.parentElement.textContent.split('.')[0];
+		//const bookName = event.currentTarget.parentElement.textContent.split('.')[0];
 		AppContainer.books.forEach((book) => {
 			//debugger
-			if (book.title === bookName) {
-				fetch(`${this.url}/books/${book.id}`, { method: 'delete' })
-					// .then(response => response.json())
-					// .then(data => {console.log(data)})
-					.catch((err) => console.log(err));
-			}
-		});
-		// AppContainer.books.forEach((book) => {
-		// 	//debugger
-		// 	fetch(`${this.url}/books/${book.id}`, { method: 'DELETE' })
-		// 		.then(response => response.json())
-		// 		.then((data) => {
-		// 			Books.delete(data.id);
-		// 		})
-		// 		.catch((err) => console.log(err));
-		// 	});
-		//this.getBooks()
+			fetch(`${this.url}/books/${book.id}`, { method: 'DELETE' })
+				.then(response => response.json())
+				.then((data) => {
+					Books.delete(data.id);
+				})
+				.catch((err) => console.log(err));
+			});
+		//this.getBooks()-
 		// event.preventDefault()
-		// book = event.target.parentElement
-		// fetch(`${this.url}/books/${book.id}`, {	method: 'DELETE' })
-		// .then(resp => resp.json())
-		// .then(data => {
-		// 	Books.delete(data.id)
-		// })
-		// .catch(err => console.log(err))
+	// 	let book = event.target.parentElement
+	// 	fetch(`${this.url}/books/${book.id}`, {	method: 'DELETE' })
+	// 	.then(resp => resp.json())
+	// 	.then(data => {
+	// 		Books.delete(data.id)
+	// 	})
+	// 	.catch(err => console.log(err))
 	}
+
 }
