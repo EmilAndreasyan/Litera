@@ -29,7 +29,7 @@
               </ul>
               <form class="search-book-form form-inline my-2 my-lg-0">
                 <input class="search-input form-control mr-sm-2" type="text" placeholder="Looking for a book?">
-                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
               </form>
             </div>
           </nav>
@@ -43,7 +43,7 @@
         <div class="author-emails">       
         </div>
 
-        <div class="search-show">
+        <div class="seach-show-div">
         </div>
         <div class="book-div">   
         </div>
@@ -57,13 +57,15 @@
             <input type="text" name="publisher"><br>
             <label for="">Rating</label>
             <input type="number" min="1" max="5" name="rating"><br>
+            <!-- how to enter parents data and how to save them in books controller create? -->
+            <label for="">Author</label>
+            <input type="text" name="author"><br>
+            <label for="">Genre</label>
+            <input type="text" name="genre">
             <!-- <select name="" class="selectAuthors">
     
             </select> -->
-            <!-- <label for="">Author</label>
-            <input type="text" name="author"><br>
-            <label for="">Genre</label>
-            <input type="text" name="genre"> -->
+            
             <button type="submit" class="btn-success btn-lg">Submit</button>
         </form>
     </div>

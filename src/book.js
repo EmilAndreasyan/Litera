@@ -11,7 +11,7 @@ class Books {
 	}
 
 	static delete(bookId) {
-        AppContainer.books = AppContainer.books.filter((el) => parseInt(bookId, 10) !== el.id);
+        return AppContainer.books.filter((el) => parseInt(bookId, 10) !== el.id);
 	}
 
 	static byAuthor(authorName) {

@@ -59,8 +59,7 @@ class AppContainer {
 		authorEmails.appendChild(ul);
 		const btn = document.createElement('button');
 		btn.className = 'hide-button';
-		btn.style.backgroundColor = '#6CC3D5';
-		btn.style.color = 'white';
+		btn.className = 'btn btn-info btn-sm m-2'
 		btn.innerText = 'Hide Emails';
 		authorEmails.appendChild(btn);
 		btn.addEventListener('click', (event) => {
@@ -78,17 +77,15 @@ class AppContainer {
 			p.textContent = `${book.title}. Rating: ${book.rating} `;
 			ul.appendChild(p);
 			const btn = document.createElement('button');
-			btn.style.backgroundColor = '#FF7851';
-			btn.style.color = 'lightBlue';
-			btn.className = 'delete-button';
+			btn.className = "btn btn-danger btn-sm ml-2";
 			btn.innerText = ` Delete`;
 			p.appendChild(btn);
-			btn.addEventListener('click', (ev) => {
-				ev.target.parentNode.remove();
-			});
+			// btn.addEventListener('click', (ev) => {
+			// 	ev.target.parentNode.remove();
+			// });
 			//btn.addEventListener('click', (event) => this.deleteBook)
 			//btn.addEventListener('click', this.deleteBook)
-			//btn.addEventListener('click', AppAdapter.deleteBook); // half works, hits the method, but the book element is undefined
+			btn.addEventListener('click', AppAdapter.deleteBook); // half works, hits the method, but the book element is undefined
 			// btn.addEventListener('click', (ev, book) => {
 			// 	// how to invoke deleteBook fetch request? (url, book)
 			// 	//debugger
@@ -116,21 +113,22 @@ class AppContainer {
 	searchBook(event) {
 		// const num = event.charCode; // code of the event
 		// const letter = String.fromCharCode(num);
-		// how to capitalize each letter in input and compare to Object value???
 		event.preventDefault();
-		let searchShowDiv, input, filter, h5, deleteBtn;
-		searchShowDiv = document.querySelector('.search-show');
+		let searchShowDiv, input, filter, h5, h4, deleteBtn;
+		searchShowDiv = document.querySelector('.seach-show-div');
 		input = document.querySelector('.search-input').value;
 		h5 = document.createElement('h5');
+		h4 = document.createElement('h4');
 		deleteBtn = document.createElement('button');
+		deleteBtn.className = "btn btn-warning btn-sm ml-2"
 		// filter gets string with "Every Word Uppercased"
 		filter = input.split(' ').map((word) => (word.charAt(0).toUpperCase() + word.slice(1)).split(',')).join(' ');
 		AppContainer.books.forEach((book) => {
-			//debugger
-			if (book.title.includes(filter)) {
-				h5.textContent = `We have a book matching your search! ${book.title} `;
+			if (book.title.toLowerCase().includes(filter.toLowerCase())) {
+				// when compared to lowercase value, filter doesn't work
+				h5.textContent = `We have a book that may match your search! ${book.title} `;
 			} else {
-				console.log(`We haven't found any results for ${filter} `) // doesn't work, how to invoke this outside of loop?
+				h4.textContent = `We haven't found any results for ${filter} `; // doesn't work, how to invoke this outside of loop?
 			}
 		});
 		// for (const key in AppContainer.books) {

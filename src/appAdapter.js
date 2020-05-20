@@ -53,9 +53,9 @@ class AppAdapter {
 			body: JSON.stringify({
 				title: event.target.title.value,
 				publisher: event.target.publisher.value,
-				rating: event.target.rating.value
-				// author: event.target.author.value,
-				// genre: event.target.genre.value
+				rating: event.target.rating.value,
+				author: event.target.author.name.value,
+				genre: event.target.genre.name.value
 			})
 		})
 			.then((resp) => resp.json())
@@ -63,14 +63,15 @@ class AppAdapter {
 				//debugger
 				const { id, title, publisher, rating, author, genre } = data;
 				new Books(id, title, publisher, rating, author, genre);
+				new Authors(data.id, data.name, data.gender, data.age, data.email)
+				new Genres(data.id, data.name)
 			})
 			.catch((err) => console.log(err));
 	}
 
-	static deleteBook(event) {
+	static deleteBook() {
 		// how to connect event.currentTarget.parentElement with book.id?
-		debugger;
-		event.preventDefault();
+		//event.preventDefault();
 		//const bookName = event.currentTarget.parentElement.textContent.split('.')[0];
 		AppContainer.books.forEach((book) => {
 			//debugger
