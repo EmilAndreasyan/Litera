@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :authors, only: [:index, :create] 
   resources :books, only: [:index, :create, :update, :destroy]
   resources :genres, only: [:index]
-  resources :comments, only: [:index]
+  # resources :comments, only: [:index]
   
 
   # get '/test' => 'application#test'

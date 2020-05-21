@@ -5,6 +5,7 @@ class AppContainer {
 	static comments = [];
 	static domElements = {
 		// more organized way of targeting DOM elements
+		displayAuthorButton: document.querySelector('.display-author-button'),
 		showBooksBtn: document.querySelector('.show-books-btn'),
 		hideBooksBtn: document.querySelector('.hide-books-btn'),
 		showEmailsBtn: document.querySelector('.show-emails'),
@@ -17,6 +18,7 @@ class AppContainer {
 		// bind(this) binds the instance of class, are used for preventing default behavior (preventDefault()), if the book array is static (static book = []), we can avoid using bind
 
 		// AppAdapter == this.constructor (name of class)
+		this.constructor.domElements.displayAuthorButton.addEventListener('click', this.constructor.showAuthorForm);
 
 		this.constructor.domElements.showBooksBtn.addEventListener('click', this.constructor.showBooks); // class name has access to static method, which is visible across the files
 		this.constructor.domElements.hideBooksBtn.addEventListener('click', this.hideBooks);
@@ -32,17 +34,23 @@ class AppContainer {
 		this.constructor.domElements.searchBookForm.addEventListener('submit', () => this.searchBook(event));
 	}
 
-	static showAuthors() {
-		// creating select with options
+	static showAuthors(){
 		const authorDiv = document.querySelector('.author-div'); // targeting
-		const selectAuthors = document.getElementById('select-authors'); // targeting
-		for (const element of AppContainer.authors) {
-			const option = document.createElement('option'); // creating options
-			option.value = element.name;
-			option.text = element.name;
-			selectAuthors.appendChild(option);
+		//const ul = document.createElement('ul')
+		for(const element of AppContainer.authors) {
+			const p = document.createElement('p')
+			p.textContent = element.name
+			authorDiv.appendChild(p)
 		}
-		authorDiv.appendChild(selectAuthors);
+	}
+
+	static showAuthorForm() {
+		const newAuthorForm = document.getElementById('new-author-form')
+		newAuthorForm.style.display = "block"
+		const btn = document.querySelector('.hide-author-button')
+		btn.addEventListener('click', () => {
+			newAuthorForm.style.display = "none"
+		})
 	}
 
 	toggleEmails() {
@@ -51,7 +59,7 @@ class AppContainer {
 		const ul = document.createElement('ul');
 		AppContainer.authors.forEach((author) => {
 			const li = document.createElement('li');
-			if (author.email !== undefined) {
+			if (author.email !== null) {
 				li.innerText = `${author.email}`;
 				ul.appendChild(li);
 			}
@@ -70,22 +78,24 @@ class AppContainer {
 	}
 
 	static showBooks() {
+		
 		const bookDiv = document.querySelector('.book-div');
 		const ul = document.createElement('ul');
 		AppContainer.books.forEach((book) => {
-			const p = document.createElement('p');
-			p.textContent = `${book.title}. Rating: ${book.rating} `;
-			ul.appendChild(p);
+			//debugger
+			const li = document.createElement('li');
+			li.textContent = `${book.title}. Rating: ${book.rating} `;
+			ul.appendChild(li);
 			const btn = document.createElement('button');
-			btn.className = "btn btn-danger btn-sm ml-2";
-			btn.innerText = ` Delete`;
-			p.appendChild(btn);
-			// btn.addEventListener('click', (ev) => {
-			// 	ev.target.parentNode.remove();
-			// });
+			btn.className = "btn btn-danger btn-sm m-2";
+			btn.innerText = `delete`;
+			li.appendChild(btn);
+			btn.addEventListener('click', (ev) => {
+				ev.target.parentNode.remove();
+			});
 			//btn.addEventListener('click', (event) => this.deleteBook)
 			//btn.addEventListener('click', this.deleteBook)
-			btn.addEventListener('click', AppAdapter.deleteBook); // half works, hits the method, but the book element is undefined
+			//btn.addEventListener('click', AppAdapter.deleteBook); // half works, hits the method, but the book element is undefined
 			// btn.addEventListener('click', (ev, book) => {
 			// 	// how to invoke deleteBook fetch request? (url, book)
 			// 	//debugger
@@ -125,10 +135,9 @@ class AppContainer {
 		filter = input.split(' ').map((word) => (word.charAt(0).toUpperCase() + word.slice(1)).split(',')).join(' ');
 		AppContainer.books.forEach((book) => {
 			if (book.title.toLowerCase().includes(filter.toLowerCase())) {
-				// when compared to lowercase value, filter doesn't work
 				h5.textContent = `We have a book that may match your search! ${book.title} `;
 			} else {
-				h4.textContent = `We haven't found any results for ${filter} `; // doesn't work, how to invoke this outside of loop?
+				h4.textContent = `We haven't found any results for ${filter} `; // doesn't work, creates only delete button
 			}
 		});
 		// for (const key in AppContainer.books) {

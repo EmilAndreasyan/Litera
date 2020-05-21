@@ -8,7 +8,7 @@ class AuthorsController < ApplicationController
         author = Author.new(name: params[:name], age: params[:age], gender: params[:gender], email: params[:email])
         if author.save
           flash[:success] = "Author successfully created"
-          render json: author
+          render json: author, status: 201
         else
           flash[:error] = "Something went wrong"
         end

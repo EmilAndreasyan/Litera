@@ -17,4 +17,9 @@ class Books {
 	static byAuthor(authorName) {
 		return AppContainer.books.filter((book) => book.author.name === authorName);
 	}
+
+	// static byTitle(bookTitle) {
+	// 	debugger
+	// 	return AppContainer.books.filter(book => book.title === bookTitle)
+	// }
 }

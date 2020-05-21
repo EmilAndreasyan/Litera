@@ -33,16 +33,6 @@ ActiveRecord::Schema.define(version: 2020_05_03_044253) do
     t.index ["genre_id"], name: "index_books_on_genre_id"
   end
 
-  create_table "comments", force: :cascade do |t|
-    t.string "date"
-    t.integer "likes"
-    t.integer "dislikes"
-    t.integer "book_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["book_id"], name: "index_comments_on_book_id"
-  end
-
   create_table "genres", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -51,5 +41,4 @@ ActiveRecord::Schema.define(version: 2020_05_03_044253) do
 
   add_foreign_key "books", "authors"
   add_foreign_key "books", "genres"
-  add_foreign_key "comments", "books"
 end
