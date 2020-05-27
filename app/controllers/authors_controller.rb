@@ -1,16 +1,17 @@
 class AuthorsController < ApplicationController
     
     def index
-        render json: Author.all
+      render json: Author.all, status: 200
     end
 
     def create
+      # author = Author.create(id: params[:id], name: params[:name], age: params[:age], gender: params[:gender], email: params[:email])
+      # render json: author, status: 201
         author = Author.new(name: params[:name], age: params[:age], gender: params[:gender], email: params[:email])
         if author.save
-          flash[:success] = "Author successfully created"
           render json: author, status: 201
         else
-          flash[:error] = "Something went wrong"
+          render json: {message: "Something went wrong"}
         end
     end
     

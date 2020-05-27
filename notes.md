@@ -14,6 +14,7 @@ AJAX requests
 - update/books/:id
 - delete/books/:id
 
+- cannot make post request of books, problem is in BooksController create action
 - in showAuthorBooks, how to select only books for author in option select???? should it be nested route author/:id/books in routes and controller show action?
 - search for a book (how to find Object's one of the keys' value?), filter method
-- make delete request at deleteBook, how to connect event.currentTarget.parentElement with book.id?
+- make delete request at deleteBook, how to pass book.id into method and delete by id?

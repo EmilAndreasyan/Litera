@@ -8,13 +8,14 @@ class AppAdapter {
 	bindEventListeners() {
 		// AppAdapter == this.constructor (name of class)
 		this.constructor.domElements.newBookForm.addEventListener('submit', () => this.createBook(event)); // when submit, arrow function then preventDefault in function body
-		this.constructor.domElements.newAuthorForm.addEventListener('submit', () => this.createAuthor(event));
+		this.constructor.domElements.newAuthorForm.addEventListener('submit', (event) => this.createAuthor(event));
 	}
 
 	getAuthors() {
 		fetch(this.url + '/authors')
 			.then((response) => response.json())
 			.then((data) => {
+				//debugger
 				data.forEach((author) => {
 					if (author.name !== null && author.email !== null) {
 						new Authors(author.id, author.name, author.gender, author.age, author.email);
@@ -46,7 +47,7 @@ class AppAdapter {
 
 	createBook(event) {
 		event.preventDefault();
-		fetch(`${this.url}/books`, {
+		fetch(this.url + '/books', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -60,11 +61,19 @@ class AppAdapter {
 				// genre: event.target.genre.name.value
 			})
 		})
-			.then((response) => response.json())
-			.then((data) => {
-				data.forEach((book) => {
-					new Books(book.id, book.title, book.publisher, book.rating, book.author, book.genre);
-				});
+		.then((response) => response.json())
+		.then((data) => {
+			//debugger
+				if (data !== undefined) {
+				new Books(data.id, data.title, data.publisher, data.rating, data.author, data.genre);
+			}
+				// const bookDiv = document.querySelector('.book-div');
+				// const ul = document.createElement('ul');
+				// const li = document.createElement('li');
+				// li.textContent = `${data.title}. ${data.rating}`;
+				// ul.appendChild(li);
+				// bookDiv.appendChild(ul);
+
 				// doesn't work
 				// if (!AppContainer.authors.map(author => author.name.includes(book.author.name))) {
 				// 	const {id, name, gender, age, email} = author
@@ -88,41 +97,30 @@ class AppAdapter {
 			body: JSON.stringify({
 				name: event.target.name.value,
 				gender: event.target.gender.value,
+				//gender: event.target.male.value || event.target.female.value || event.target.other.value,
 				age: event.target.age.value,
 				email: event.target.email.value
 			})
 		})
 			.then((resp) => resp.json())
 			.then((data) => {
-				data.forEach((author) => {
-					new Authors(author.id, author.name, author.age, author.gender, author.email);
-				});
+				if (data !== undefined) {
+					new Authors(data.id, data.name, data.age, data.gender, data.email);
+					// const authorDiv = document.querySelector('.author-div');
+					// const p = document.createElement('p')
+					// p.innerText = data.name
+				}
 			})
 			.catch((err) => console.log(err));
 	}
 
-	static deleteBook() {
-		// how to connect event.currentTarget.parentElement with book.id?
-		//event.preventDefault();
-		//const bookName = event.currentTarget.parentElement.textContent.split('.')[0];
+	static deleteBook(ev) {
 		AppContainer.books.forEach((book) => {
-			//debugger
-			fetch(`${this.url}/books/${book.id}`, { method: 'DELETE' })
-				.then((response) => response.json())
-				.then((data) => {
-					Books.delete(data.id);
-				})
+			if (book.id === parseInt(ev.target.dataset.id, 10)) {
+			fetch(`http://localhost:3000/books/${book.id}`, { method: 'DELETE' })
 				.catch((err) => console.log(err));
+			}
 		});
-		//this.getBooks()
-		// event.preventDefault()
-		// 	let book = event.target.parentElement
-		// 	fetch(`${this.url}/books/${book.id}`, {	method: 'DELETE' })
-		// 	.then(resp => resp.json())
-		// 	.then(data => {
-		// 		Books.delete(data.id)
-		// 	})
-		// 	.catch(err => console.log(err))
 	}
 
 	static deleteAuthor() {

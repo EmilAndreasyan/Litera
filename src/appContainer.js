@@ -2,7 +2,7 @@ class AppContainer {
 	static authors = []; // static is similar to class variable in Ruby (@@authors), which belongs to class, not to instance
 	static books = []; // instances of Book pushed into books array
 	static genres = [];
-	static comments = [];
+	//static comments = [];
 	static domElements = {
 		// more organized way of targeting DOM elements
 		displayAuthorButton: document.querySelector('.display-author-button'),
@@ -34,23 +34,22 @@ class AppContainer {
 		this.constructor.domElements.searchBookForm.addEventListener('submit', () => this.searchBook(event));
 	}
 
-	static showAuthors(){
-		const authorDiv = document.querySelector('.author-div'); // targeting
-		//const ul = document.createElement('ul')
-		for(const element of AppContainer.authors) {
-			const p = document.createElement('p')
-			p.textContent = element.name
-			authorDiv.appendChild(p)
+	static showAuthors() {
+		const authorDiv = document.querySelector('.author-div');
+		for (const element of AppContainer.authors) {
+			const p = document.createElement('p');
+			p.textContent = element.name;
+			authorDiv.appendChild(p);
 		}
 	}
 
 	static showAuthorForm() {
-		const newAuthorForm = document.getElementById('new-author-form')
-		newAuthorForm.style.display = "block"
-		const btn = document.querySelector('.hide-author-button')
+		const newAuthorForm = document.getElementById('new-author-form');
+		newAuthorForm.style.display = 'block';
+		const btn = document.querySelector('.hide-author-button');
 		btn.addEventListener('click', () => {
-			newAuthorForm.style.display = "none"
-		})
+			newAuthorForm.style.display = 'none';
+		});
 	}
 
 	toggleEmails() {
@@ -67,7 +66,7 @@ class AppContainer {
 		authorEmails.appendChild(ul);
 		const btn = document.createElement('button');
 		btn.className = 'hide-button';
-		btn.className = 'btn btn-info btn-sm m-2'
+		btn.className = 'btn btn-info btn-sm m-2';
 		btn.innerText = 'Hide Emails';
 		authorEmails.appendChild(btn);
 		btn.addEventListener('click', (event) => {
@@ -78,39 +77,19 @@ class AppContainer {
 	}
 
 	static showBooks() {
-		
 		const bookDiv = document.querySelector('.book-div');
 		const ul = document.createElement('ul');
 		AppContainer.books.forEach((book) => {
-			//debugger
+			//debugger, how to get id
 			const li = document.createElement('li');
 			li.textContent = `${book.title}. Rating: ${book.rating} `;
 			ul.appendChild(li);
 			const btn = document.createElement('button');
-			btn.className = "btn btn-danger btn-sm m-2";
+			btn.className = 'btn btn-danger btn-sm m-2';
 			btn.innerText = `delete`;
+			btn.dataset.id = book.id
 			li.appendChild(btn);
-			btn.addEventListener('click', (ev) => {
-				ev.target.parentNode.remove();
-			});
-			//btn.addEventListener('click', (event) => this.deleteBook)
-			//btn.addEventListener('click', this.deleteBook)
-			//btn.addEventListener('click', AppAdapter.deleteBook); // half works, hits the method, but the book element is undefined
-			// btn.addEventListener('click', (ev, book) => {
-			// 	// how to invoke deleteBook fetch request? (url, book)
-			// 	//debugger
-			// 	book = ev.target.parentNode
-			// 	AppContainer.books.forEach((book) => {
-			// 		fetch(`http://localhost:3000/books/${book.id}`, {
-			// 			method: 'DELETE'
-			// 		})
-			// 			.then((resp) => resp.json())
-			// 			.then((data) => {
-			// 				Books.delete(data.id);
-			// 			})
-			// 			.catch((err) => console.log(err));
-			// 	});
-			// });
+			btn.addEventListener('click', (btn) => AppAdapter.deleteBook(btn)); 
 		});
 		bookDiv.appendChild(ul);
 	}
@@ -130,7 +109,7 @@ class AppContainer {
 		h5 = document.createElement('h5');
 		h4 = document.createElement('h4');
 		deleteBtn = document.createElement('button');
-		deleteBtn.className = "btn btn-warning btn-sm ml-2"
+		deleteBtn.className = 'btn btn-warning btn-sm ml-2';
 		// filter gets string with "Every Word Uppercased"
 		filter = input.split(' ').map((word) => (word.charAt(0).toUpperCase() + word.slice(1)).split(',')).join(' ');
 		AppContainer.books.forEach((book) => {
