@@ -80,16 +80,15 @@ class AppContainer {
 		const bookDiv = document.querySelector('.book-div');
 		const ul = document.createElement('ul');
 		AppContainer.books.forEach((book) => {
-			//debugger, how to get id
 			const li = document.createElement('li');
 			li.textContent = `${book.title}. Rating: ${book.rating} `;
 			ul.appendChild(li);
 			const btn = document.createElement('button');
 			btn.className = 'btn btn-danger btn-sm m-2';
-			btn.innerText = `delete`;
+			btn.innerText = 'delete';
 			btn.dataset.id = book.id
 			li.appendChild(btn);
-			btn.addEventListener('click', (btn) => AppAdapter.deleteBook(btn)); 
+			btn.addEventListener('click', AppAdapter.deleteBook); 
 		});
 		bookDiv.appendChild(ul);
 	}

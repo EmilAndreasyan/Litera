@@ -45,9 +45,15 @@
         <div class="new-author-div" >
           <form action="" id="new-author-form" style="display: none;">
             <label for="">Author's name</label>
-            <input type="text" name="name">
+            <input type="text" name="name"><br/>
             <label for="">Gender</label>
-            <input type="text" name="gender">
+            <label for="male">
+            <input type="checkbox" name="male" value="male">Male</label>
+            <label for="female">
+            <input type="checkbox" name="female" value="female">Female</label>
+            <label for="other">
+              <input type="checkbox" name="female" value="other">Other</label>
+            <!-- <input type="text" name="gender"> -->
             <!-- <input type="checkbox" name="male">
             <label for="male">Male</label>
             <input type="checkbox" name="female">
@@ -83,10 +89,10 @@
             <label for="">Rating</label>
             <input type="number" min="1" max="5" name="rating"><br>
             <!-- how to enter parents data and how to save them in books controller create? -->
-            <label for="">Author</label>
+            <!-- <label for="">Author</label>
             <input type="text" name="book[author][name]"><br>
             <label for="">Genre</label>
-            <input type="text" name="book[genre][name]">
+            <input type="text" name="book[genre][name]"> -->
             <!-- <select name="" class="selectAuthors">
     
             </select> -->

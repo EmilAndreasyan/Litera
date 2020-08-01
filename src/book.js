@@ -10,10 +10,6 @@ class Books {
 		AppContainer.books.push(this); // continuation, once instances of Books class (this) is created, push them into AppContainer class' static books array
 	}
 
-	static delete(bookId) {
-        return AppContainer.books.filter((el) => parseInt(bookId, 10) !== el.id);
-	}
-
 	static byAuthor(authorName) {
 		return AppContainer.books.filter((book) => book.author.name === authorName);
 	}

@@ -56,9 +56,9 @@ class AppAdapter {
 			body: JSON.stringify({
 				title: event.target.title.value,
 				publisher: event.target.publisher.value,
-				rating: event.target.rating.value
-				// author: event.target.author.name.value,
-				// genre: event.target.genre.name.value
+				rating: event.target.rating.value,
+				// author: event.target.author.value,
+				// genre: event.target.genre.value
 			})
 		})
 		.then((response) => response.json())
@@ -96,8 +96,8 @@ class AppAdapter {
 			},
 			body: JSON.stringify({
 				name: event.target.name.value,
-				gender: event.target.gender.value,
-				//gender: event.target.male.value || event.target.female.value || event.target.other.value,
+				//gender: event.target.gender.value,
+				gender: event.target.male.value || event.target.female.value || event.target.other.value,
 				age: event.target.age.value,
 				email: event.target.email.value
 			})
